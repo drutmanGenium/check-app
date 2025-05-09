@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import SetDatePage from './set-date/page';
 
 export default function Home() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-lg font-bold text-blue-500">Pantalla principal</Text>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <SetDatePage />
     </View>
   );
 }
