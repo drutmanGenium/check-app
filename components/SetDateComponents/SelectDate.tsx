@@ -31,73 +31,70 @@ export default function SelectDate({ selected, onSelect, onNext, onBack }: Props
 
   return (
     <View
-      className="flex-1 px-4 justify-between"
-      style={{ paddingTop: isLandscape ? 10 : 80, paddingBottom: isLandscape ? 10 : 20 }}
+      className="flex-1 justify-between pb-4"
+      style={{
+        paddingTop: isLandscape ? 20 : 80,
+        paddingHorizontal: isLandscape ? 64 : 16,
+      }}
     >
-      <View className="w-full max-w-[768px] self-center">
-        <Stepper totalSteps={4} currentStep={1} />
-        <View className="mt-10 items-center">
-          <Title
-            title="Select the date"
-            subtitle="This information will be used to preload the data associated to the date"
-          />
-        </View>
-      </View>
-
       <ScrollView
+        className="w-full"
         contentContainerStyle={{ flexGrow: 1 }}
-        className="w-full max-w-[768px] self-center"
-        style={{ marginBottom: isLandscape ? 0 : 30 }}
+        showsVerticalScrollIndicator={false}
       >
-        <View
-          className="flex flex-row justify-center gap-4 flex-wrap"
-          style={{ marginTop: isLandscape ? 10 : 100 }}
-        >
-          {options.map((option, index) => {
-            const isSelected = selected === index
-            return (
-              <Pressable
-                key={index}
-                onPress={() => onSelect(index)}
-                className={`w-[45%] aspect-square max-w-[160px] 
-                            items-center justify-center rounded-lg border 
-                            ${isSelected ? 'border-[#0097EE] border-2 bg-blue-50' : 'bg-gray-100 border-transparent'}
-                `}
-              >
-                <Text
-                  style={{ fontSize: getResponsiveText(4) }}
-                  className={`${
-                    isSelected ? 'text-[#0097EE]' : 'text-gray-800'
-                  }`}
+        <View className="w-full max-w-[768px] self-center mt-12">
+          <Stepper totalSteps={4} currentStep={1} />
+          <View className="mt-4 items-center">
+            <Title
+              title="Select the date"
+              subtitle="This information will be used to preload the data associated to the date"
+            />
+          </View>
+        </View>
+
+        <View className="w-full max-w-[768px] self-center">
+          <View
+            className="flex flex-row justify-center gap-4 flex-wrap"
+            style={{ marginTop: isLandscape ? 40 : 60, marginBottom: 40 }}
+          >
+            {options.map((option, index) => {
+              const isSelected = selected === index
+              return (
+                <Pressable
+                  key={index}
+                  onPress={() => onSelect(index)}
+                  className={`w-[45%] aspect-square max-w-[260px] items-center justify-center rounded-lg border 
+                              ${isSelected ? 'border-[#0097EE] border-2 bg-blue-50' : 'bg-gray-100 border-transparent'}`}
                 >
-                  {option.day}
-                </Text>
-                <Text
-                  style={{ fontSize: getResponsiveText(10) }}
-                  className={`font-semibold leading-none ${
-                    isSelected ? 'text-[#0097EE]' : 'text-gray-800'
-                  }`}
-                >
-                  {option.date}
-                </Text>
-                <Text
-                  style={{ fontSize: getResponsiveText(4) }}
-                  className={`${
-                    isSelected ? 'text-[#0097EE]' : 'text-gray-800'
-                  }`}
-                >
-                  {option.month}
-                </Text>
-              </Pressable>
-            )
-          })}
+                  <Text
+                    style={{ fontSize: getResponsiveText(4) }}
+                    className={`${isSelected ? 'text-[#0097EE]' : 'text-gray-800'}`}
+                  >
+                    {option.day}
+                  </Text>
+                  <Text
+                    style={{ fontSize: getResponsiveText(10) }}
+                    className={`font-semibold leading-none ${isSelected ? 'text-[#0097EE]' : 'text-gray-800'}`}
+                  >
+                    {option.date}
+                  </Text>
+                  <Text
+                    style={{ fontSize: getResponsiveText(4) }}
+                    className={`${isSelected ? 'text-[#0097EE]' : 'text-gray-800'}`}
+                  >
+                    {option.month}
+                  </Text>
+                </Pressable>
+              )
+            })}
+          </View>
         </View>
       </ScrollView>
 
       <View
-          className="w-full max-w-[768px] self-center mr-4"
-          style={{ marginBottom: isLandscape ? 10 : 80 }}
-        >
+        className="w-full max-w-[768px] self-center"
+        style={{ marginBottom: isLandscape ? 10 : 80 }}
+      >
         <Buttons onCancel={onBack} cancelText="Back" onNext={onNext} nextText="Next" />
       </View>
     </View>

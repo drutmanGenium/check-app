@@ -15,28 +15,53 @@ export default function Buttons({
 }: ButtonsProps) {
   const { width, height } = useWindowDimensions()
   const isLandscape = width > height
+  const isTablet = width >= 800
+
+  const buttonPadding = isTablet ? 24 : 12
+  const buttonMinWidth = isTablet ? 280 : 100
+  const textSize = isTablet ? 20 : 16
 
   return (
     <View
-      className="flex-row justify-center gap-4 text-lg mb-4"
-      style={{ marginTop: isLandscape ? 16 : 40 }} // mt-4 vs mt-10
+      className="flex-row justify-center gap-4 mb-4"
+      style={{ marginTop: isLandscape ? 16 : 40 }}
     >
       {onCancel && (
         <Pressable
           onPress={onCancel}
-          className="bg-gray-100 px-10 py-3 rounded-lg min-w-[100px] items-center"
+          className="bg-gray-100 rounded-lg items-center"
+          style={{
+            paddingHorizontal: buttonPadding,
+            paddingVertical: buttonPadding / 1.5,
+            minWidth: buttonMinWidth,
+          }}
           android_ripple={{ color: '#e5e7eb' }}
         >
-          <Text className="text-gray-600 text-base">{cancelText}</Text>
+          <Text
+            className="text-gray-600 font-light"
+            style={{ fontSize: textSize }}
+          >
+            {cancelText}
+          </Text>
         </Pressable>
       )}
       {onNext && (
         <Pressable
           onPress={onNext}
-          className="bg-[#0097EE] px-10 py-3 rounded-lg min-w-[100px] items-center"
+          className="bg-[#0097EE] rounded-lg items-center"
+          style={{
+            paddingHorizontal: buttonPadding,
+            paddingVertical: buttonPadding / 1.5,
+            minWidth: buttonMinWidth,
+          }}
           android_ripple={{ color: '#0080cc' }}
         >
-          <Text className="text-white text-base">{nextText}</Text>
+          <Text
+            className="text-white font-light"
+            style={{ fontSize: textSize }}
+          >
+            {nextText}
+          </Text>
         </Pressable>
       )}
     </View>

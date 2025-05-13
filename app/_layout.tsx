@@ -1,33 +1,40 @@
-import { Slot } from "expo-router"
-import { View, StyleSheet } from "react-native"
-import Sidebar from "components/Sidebar"
-import '../global.css'
+import { useState, useEffect } from 'react';
+import { View, useWindowDimensions, StatusBar, Platform } from 'react-native';
+import { Slot, useRouter } from 'expo-router';
+import Sidebar from 'components/Sidebar';
+import SuccessModal from 'components/SetDateComponents/SuccessModal';
+import { ModalContext } from '@/context/modal-context';
+import '../global.css';
 
 export default function Layout() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.sidebar}>
-        <Sidebar />
-      </View>
-      <View style={styles.content}>
-        <Slot />
-      </View>
-    </View>
-  )
-}
+  const [successVisible, setSuccessVisible] = useState(false);
+  const router = useRouter();
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%'
-  },
-  sidebar: {
-    width: 96, // equivalente a w-24 (24 * 4 = 96)
-    backgroundColor: 'white'
-  },
-  content: {
-    flex: 1,
-    overflow: 'hidden' // previene que el contenido se desborde
-  }
-})
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      StatusBar.setHidden(isLandscape);
+    }
+  }, [isLandscape]);
+
+  return (
+    <ModalContext.Provider value={{ successVisible, setSuccessVisible }}>
+      <View className="relative h-full w-full flex-row bg-white">
+        <View className="w-24">
+          <Sidebar />
+        </View>
+        <View className="relative flex-1">
+          <Slot />
+        </View>
+        <SuccessModal
+          visible={successVisible}
+          onClose={() => {
+            setSuccessVisible(false);
+            router.push('/check-in');
+          }}
+        />
+      </View>
+    </ModalContext.Provider>
+  );
+}

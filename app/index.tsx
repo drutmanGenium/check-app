@@ -1,10 +1,5 @@
-import { View } from 'react-native';
-import SetDatePage from './set-date/page';
+import { Redirect } from 'expo-router'
 
-export default function Home() {
-  return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <SetDatePage />
-    </View>
-  );
+export default function Index() {
+  return <Redirect href="/set-date" />
 }

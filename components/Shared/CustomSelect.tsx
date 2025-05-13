@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,19 @@ import {
   ScrollView,
   Keyboard,
   StyleSheet,
-  Platform
-} from 'react-native'
-import ChevronUp from '@/assets/icons/Icon=ChevronUp.svg'
-import ChevronDown from '@/assets/icons/Icon=ChevronDown.svg'
+  useWindowDimensions,
+} from 'react-native';
+import ChevronUp from '@/assets/icons/Icon=ChevronUp.svg';
+import ChevronDown from '@/assets/icons/Icon=ChevronDown.svg';
 
 type CustomSelectProps = {
-  iconSrc: any
-  options: string[]
-  selected: string
-  onChange: (value: string) => void
-  open: boolean
-  setOpen: (value: boolean) => void
-}
+  iconSrc: any;
+  options: string[];
+  selected: string;
+  onChange: (value: string) => void;
+  open: boolean;
+  setOpen: (value: boolean) => void;
+};
 
 export default function CustomSelect({
   iconSrc,
@@ -30,21 +30,23 @@ export default function CustomSelect({
   open,
   setOpen,
 }: CustomSelectProps) {
-  const inputRef = useRef<TextInput>(null)
-  const containerRef = useRef<View>(null)
-
+  const inputRef = useRef<TextInput>(null);
+  const containerRef = useRef<View>(null);
+  const { width, height } = useWindowDimensions();
+  const isTabletLandscape = width > 800 && width > height;
+  const Icon = iconSrc;
   const filteredOptions = options.filter((option) =>
     option.toLowerCase().includes(selected.toLowerCase())
-  )
+  );
 
   const handleSelect = (option: string) => {
-    onChange(option)
-    setOpen(false)
-    Keyboard.dismiss()
-  }
+    onChange(option);
+    setOpen(false);
+    Keyboard.dismiss();
+  };
 
   return (
-    <View ref={containerRef} className="relative w-full px-4">
+    <View ref={containerRef} className="relative">
       {open && (
         <View style={StyleSheet.absoluteFillObject}>
           <Pressable
@@ -58,28 +60,24 @@ export default function CustomSelect({
               right: 0,
             }}
             onPress={() => {
-              setOpen(false)
-              Keyboard.dismiss()
+              setOpen(false);
+              Keyboard.dismiss();
             }}
           />
         </View>
       )}
 
       <Pressable
-        className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white flex-row justify-between items-center z-20"
-        onPress={() => {
-          setOpen(!open)
-          inputRef.current?.focus()
-        }}
-      >
-        <View className="flex-row items-center gap-2 flex-1">
-          <Image source={iconSrc} className="w-5 h-5" resizeMode="contain" />
+        className="z-20 mb-4 w-full flex-row items-center justify-between rounded-xl border border-gray-300 bg-white px-4 py-3"
+        onPress={() => setOpen(!open)}>
+        <View className="flex-1 flex-row items-center gap-2 p-2">
+          <Icon width={20} height={20} fill="#999" />
           <TextInput
             ref={inputRef}
             value={selected}
             onChangeText={onChange}
             placeholder="Select or type..."
-            className="flex-1 text-base text-gray-800"
+            className={`flex-1 text-gray-800 ${isTabletLandscape ? 'text-xl' : 'text-base'}`}
             style={{ padding: 0 }}
             onFocus={() => setOpen(true)}
           />
@@ -93,33 +91,33 @@ export default function CustomSelect({
 
       {open && (
         <ScrollView
-          className="absolute z-50 mt-12 w-full bg-white border border-gray-200 rounded-xl shadow max-h-60"
+          className="absolute z-50 mt-16 max-h-60 w-full rounded-xl border border-gray-200 bg-white shadow"
           keyboardShouldPersistTaps="handled"
-          style={{ zIndex: 30 }}
-        >
+          style={{ zIndex: 30 }}>
           {filteredOptions.map((option) => (
             <Pressable
               key={option}
               onPress={() => handleSelect(option)}
-              className={`px-4 py-3 flex-row items-center gap-2 ${
+              className={`flex-row items-center gap-2 px-4 py-3 ${
                 selected === option ? 'bg-blue-50' : ''
-              }`}
-            >
-              <Image source={iconSrc} className="w-5 h-5" resizeMode="contain" />
+              }`}>
+              <Image source={iconSrc} className="h-5 w-5" resizeMode="contain" />
               <Text
-                className={`text-base font-light ${
+                className={`font-light ${
                   selected === option ? 'text-[#0097EE]' : 'text-gray-800'
-                }`}
-              >
+                } ${isTabletLandscape ? 'text-2xl' : 'text-lg'}`}>
                 {option}
               </Text>
             </Pressable>
           ))}
           {filteredOptions.length === 0 && (
-            <Text className="px-4 py-3 text-gray-400 text-sm">No results</Text>
+            <Text
+              className={`px-4 py-3 text-gray-400 ${isTabletLandscape ? 'text-xl' : 'text-base'}`}>
+              No results
+            </Text>
           )}
         </ScrollView>
       )}
     </View>
-  )
+  );
 }

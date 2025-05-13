@@ -20,27 +20,33 @@ export default function Sidebar() {
   const { width, height } = useWindowDimensions()
 
   const isLandscape = width > height
-  const baseWidth = 76
+  const baseWidth = 74
   const sidebarWidth = isLandscape ? baseWidth + insets.left : baseWidth
 
   return (
     <View
-      className="h-full bg-white border-r border-gray-100 flex flex-col justify-between items-center"
-      style={{ width: sidebarWidth, paddingTop: insets.top, paddingBottom: insets.bottom }}
-    >
-      <View className="items-center gap-4 mt-12">
-        {icons.map(({ Icon, path }, index) => {
-          const isActive = pathname === path || (pathname === '/' && index === 0)
+    className="h-full bg-white border-r border-gray-100 flex flex-col justify-between items-center"
+    style={{
+      width: sidebarWidth,
+      paddingTop: insets.top,
+      paddingBottom: insets.bottom,
+      paddingLeft: isLandscape ? insets.left : 0, // opcional, si querés respetar notch lateral
+    }}
+  >
+      <View className="items-center gap-4 mt-4">
+      {icons.map(({ Icon, path }, index) => {
+  const isActive = pathname === path || (pathname === '/' && index === 0)
 
-          return (
-            <View
-              key={path}
-              className={`p-3 rounded-2xl ${isActive ? 'bg-light-blue-100' : ''}`}
-            >
-              <Icon width={32} height={32} fill={isActive ? '#0097EE' : '#323334'} />
-            </View>
-          )
-        })}
+  return (
+    <View
+      key={path}
+      className={`p-3 rounded-2xl ${isActive ? 'bg-light-blue-100' : ''}`}
+    >
+      <Icon width={32} height={32} fill={isActive ? '#0097EE' : '#323334'} />
+    </View>
+  )
+})}
+
       </View>
 
       <View className="items-center gap-6 mb-6">

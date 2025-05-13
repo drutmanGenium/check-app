@@ -7,11 +7,11 @@ type StepperProps = {
 
 export default function Stepper({ totalSteps, currentStep }: StepperProps) {
   return (
-    <View className="flex-row items-center ml-4 justify-center">
+    <View className="flex-row items-center ml-8 justify-center">
       {Array.from({ length: totalSteps }).map((_, index) => (
-        <View key={index} className="flex-row items-center w-16">
+        <View key={index} className="flex-row items-center w-12">
           <View
-            className={`w-5 h-5 rounded-full z-10 ${
+            className={`w-3 h-3 rounded-full z-10 ${
               index <= currentStep
                 ? 'bg-blue-800'
                 : 'border border-blue-800 bg-white'

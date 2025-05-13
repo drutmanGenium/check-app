@@ -4,11 +4,13 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   useWindowDimensions,
+  ScrollView,
 } from 'react-native'
 import Stepper from '@/components/Shared/Stepper'
 import Title from '@/components/Shared/Title'
 import Buttons from '@/components/Shared/Buttons'
 import CustomSelect from '@/components/Shared/CustomSelect'
+import iconCalendarEvent from '@/assets/icons/Icon=CalendarEvent.svg'
 
 const eventOptions = [
   'PGA Championship Tech Dashboard 2025',
@@ -36,35 +38,44 @@ export default function SelectEvent({ selected, setSelected, onNext }: Props) {
       accessible={false}
     >
       <View
-        className="flex-1 px-4 pb-4 justify-between"
-        style={{ paddingTop: isLandscape ? 20 : 80 }} // pt-20 ≈ 80
+        className="flex-1 justify-between pb-4"
+        style={{
+          paddingTop: isLandscape ? 20 : 80,
+          paddingHorizontal: isLandscape ? 64 : 16,
+        }}
       >
-        <View className="w-full max-w-[768px] self-center">
-          <Stepper totalSteps={4} currentStep={0} />
-          <View className="mt-10 items-center">
-            <Title
-              title="Select an event"
-              subtitle="All the event-related information will be preloaded into the app"
+        <ScrollView
+          className="w-full"
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="w-full max-w-[768px] self-center mt-12">
+            <Stepper totalSteps={4} currentStep={0} />
+            <View className="mt-4 items-center">
+              <Title
+                title="Select an event"
+                subtitle="All the event-related information will be preloaded into the app"
+              />
+            </View>
+          </View>
+
+          <View
+            className="w-full max-w-[768px] self-center mt-12"
+            style={{ marginBottom: isLandscape ? 10 : 140 }}
+          >
+            <CustomSelect
+              iconSrc={iconCalendarEvent}
+              options={eventOptions}
+              selected={selected}
+              onChange={setSelected}
+              open={open}
+              setOpen={setOpen}
             />
           </View>
-        </View>
+        </ScrollView>
 
         <View
-          className="w-full max-w-[768px] mr-4 self-center"
-          style={{ marginBottom: isLandscape ? 10 : 140 }}
-        >
-          <CustomSelect
-            iconSrc={require('../../assets/icons/Icon=CalendarEvent.svg')}
-            options={eventOptions}
-            selected={selected}
-            onChange={setSelected}
-            open={open}
-            setOpen={setOpen}
-          />
-        </View>
-
-        <View
-          className="w-full max-w-[768px] self-center mr-4"
+          className="w-full max-w-[768px] self-center"
           style={{ marginBottom: isLandscape ? 10 : 80 }}
         >
           <Buttons onNext={onNext} nextText="Start" />
