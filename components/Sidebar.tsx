@@ -1,21 +1,21 @@
 import { View, Pressable, Image, useWindowDimensions } from 'react-native'
-import { usePathname, useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSegments, useRouter } from 'expo-router';
 
 import CalendarIcon from '../assets/icons/Icon=CalendarEvents.svg'
 import CheckInIcon from '../assets/icons/Icon=CheckIn.svg'
-import CheckOutIcon from '../assets/icons/Icon=CheckOut.svg'
+import ReportIcon from '../assets/icons/Icon=Report.svg'
 import LogoutIcon from '../assets/icons/Icon=Logout.svg'
 
 const icons = [
   { Icon: CalendarIcon, path: '/set-date' },
   { Icon: CheckInIcon, path: '/check-in' },
-  { Icon: CheckOutIcon, path: '/check-out' },
+  { Icon: ReportIcon, path: '/report' },
 ]
 
 export default function Sidebar() {
-  const pathname = usePathname()
-  const router = useRouter()
+  const segments = useSegments()
+  const pathname = '/' + segments.join('/')
   const insets = useSafeAreaInsets()
   const { width, height } = useWindowDimensions()
 
@@ -35,17 +35,24 @@ export default function Sidebar() {
   >
       <View className="items-center gap-4 mt-4">
       {icons.map(({ Icon, path }, index) => {
-  const isActive = pathname === path || (pathname === '/' && index === 0)
+  const isActive = pathname.includes(path) || (pathname === '/' && index === 0)
 
   return (
     <View
       key={path}
-      className={`p-3 rounded-2xl ${isActive ? 'bg-light-blue-100' : ''}`}
+      className={`p-3 rounded-2xl items-center justify-center ${
+        isActive ? 'bg-light-blue-100  bg-[#E5F6FF]' : ''
+      }`}
     >
-      <Icon width={32} height={32} fill={isActive ? '#0097EE' : '#323334'} />
+      <Icon
+        width={32}
+        height={32}
+        className={isActive ? 'text-[#0097EE]' : 'text-[#323334]'}
+      />
     </View>
   )
 })}
+
 
       </View>
 

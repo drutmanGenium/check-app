@@ -51,7 +51,7 @@ export default function AssignRoute({ selected, setSelected, onNext, onBack }: P
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}>
         <View className="mt-12 w-full max-w-[768px] self-center">
-          <Stepper totalSteps={6} currentStep={5} />
+          <Stepper totalSteps={6} currentStep={4} />
           <View className="mt-4 items-center">
             <Title title="Assign a route" subtitle="Select the route and corresponding stops" />
           </View>
@@ -124,28 +124,34 @@ export default function AssignRoute({ selected, setSelected, onNext, onBack }: P
           </Pressable>
 
           <ScrollView style={{ marginTop: isLandscape ? 20 : 128 }}>
-            <Text className="text-2xl font-bold text-[#0047AB]">{selectedRouteInfo.title}</Text>
+  <Text className="text-2xl font-bold text-[#0047AB]">{selectedRouteInfo.title}</Text>
 
-            <View className="mt-6">
-              <Text className="text-xs font-medium text-gray-500">STOPS</Text>
-              <Text className="mt-1 text-lg text-gray-900">{selectedRouteInfo.subtitle}</Text>
-            </View>
+  <View className="mt-6">
+    
+    <View >
+      <View className="flex-row justify-between py-2">
+        <Text className="text-xs font-semibold text-gray-500 flex-1">Vendor</Text>
+        <Text className="text-xs font-semibold text-gray-500 flex-1 text-center">Driver Name</Text>
+        <Text className="text-xs font-semibold text-gray-500 flex-1 text-right">Vehicle #</Text>
+      </View>
 
-            <View className="mt-6">
-              <Text className="text-xs font-medium text-gray-500">ONE WAY TIME (MINS)</Text>
-              <Text className="mt-1 text-lg text-gray-900">25.5</Text>
-            </View>
+      {/* Fila 1 */}
+      <View className="flex-row justify-between py-2 border-t border-gray-100">
+        <Text className="flex-1 text-gray-900">Ace Express Coaches</Text>
+        <Text className="flex-1 text-center text-gray-900">Alonzo Velasquez</Text>
+        <Text className="flex-1 text-right text-gray-900">122</Text>
+      </View>
 
-            <View className="mt-6">
-              <Text className="text-xs font-medium text-gray-500">ROUND TRIP (MINS)</Text>
-              <Text className="mt-1 text-lg text-gray-900">60:00</Text>
-            </View>
+      {/* Fila 2 */}
+      <View className="flex-row justify-between py-2 border-t border-gray-100">
+        <Text className="flex-1 text-gray-900">Ace Express Coaches</Text>
+        <Text className="flex-1 text-center text-gray-900">Morris Stewart</Text>
+        <Text className="flex-1 text-right text-gray-900">123</Text>
+      </View>
+    </View>
+  </View>
+</ScrollView>
 
-            <View className="mt-6">
-              <Text className="text-xs font-medium text-gray-500">TOTAL ROOM BLOCK</Text>
-              <Text className="mt-1 text-lg text-gray-900">925</Text>
-            </View>
-          </ScrollView>
         </View>
       )}
     </View>

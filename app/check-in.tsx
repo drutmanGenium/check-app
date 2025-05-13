@@ -5,6 +5,8 @@ import ServiceStartTime from "@/components/CheckInComponents/ServiceStartTime"
 import ActualStartTime from "@/components/CheckInComponents/ActualStartTime"
 import DriverVehicleInfo from "@/components/CheckInComponents/DriverVehicleInfo"
 import AssignRoute from "@/components/CheckInComponents/AssignRoute"
+import AssignGPS from '@/components/CheckInComponents/AssignGPS'
+import { useModal } from '@/context/modal-context'
 
 export default function CheckInPage() {
   const [step, setStep] = useState(0)
@@ -13,6 +15,9 @@ export default function CheckInPage() {
   const [serviceStart, setServiceStart] = useState<'yes' | 'no' | null>(null)
   const [showActualTime, setShowActualTime] = useState(false)
   const [selectedRoute, setSelectedRoute] = useState<number | null>(null)
+  const [showSummary, setShowSummary] = useState(false)
+  const { setSummaryVisible, setSummaryData } = useModal()
+
 
   const handleNext = () => {
     if (step === 0 && selectedVendor !== null) {
@@ -52,7 +57,9 @@ export default function CheckInPage() {
       }
     } else if (step === 4) {
       setStep(3)
-    }
+    } else if (step === 5) {
+        setStep(4)
+      }
   }
 
   return (
@@ -108,6 +115,28 @@ export default function CheckInPage() {
           onBack={handleBack}
         />
       )}
+
+{step === 5 && (
+  <AssignGPS
+    onNext={() => {
+      setSummaryData({
+        vendor: 'Chino Valley Tours',
+        dot: '2589674',
+        startTime: '7:30 pm',
+        vehicleType: 'Mini Buses 24-29 pax',
+        driverHotel: 'Comfort Suites',
+        driverName: 'Anthony Gomez',
+        phoneNumber: '(303) 222-0981',
+        vehicleNumber: '1618',
+        route: 'Route 3',
+        gpsId: 'GPS 1000',
+      })
+      setSummaryVisible(true)
+    }}
+    onBack={handleBack}
+  />
+)}
+
     </>
   )
 }
